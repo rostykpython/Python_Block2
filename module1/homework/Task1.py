@@ -1,10 +1,10 @@
 class Meta(type):
     class_number = 0
 
-    def __new__(cls, class_name, base, attrs):
+    def __new__(mcs, class_name, base, attrs):
         attrs['class_number'] = Meta.class_number
         Meta.class_number += 1
-        return super(Meta, cls).__new__(cls, class_name, base, attrs)
+        return super(Meta, mcs).__new__(mcs, class_name, base, attrs)
 
 
 Meta.children_number = 0
