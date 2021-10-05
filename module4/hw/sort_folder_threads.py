@@ -1,6 +1,6 @@
 from pathlib import Path
 import shutil
-import time
+import sys
 import concurrent.futures
 
 AVI = []
@@ -69,7 +69,6 @@ def parse_folder(path: Path):
                 REGISTERED_EXT[ext.upper()].append(folder_item)
             else:
                 REGISTERED_EXT['OTHER'].append(folder_item)
-    return REGISTERED_EXT
 
 
 def handle_file(root_path, list_of_paths):
@@ -105,15 +104,8 @@ def threading_files(root_path: Path):
         list(executor.map(handle_file, (root_path for i in range(6)), (IMAGES, DOCS, ARCH, MUSIC, VIDEOS, OTHERS)))
 
 
-def execute_command(root_path: Path):
-    parse_folder(root_path)
-    threading_files(root_path)
-    del_empty_folders(root_path)
-
-
 if __name__ == '__main__':
-    folder_to_sort = Path(r'C:\Users\Lenovo\Desktop\Folder_for_script\new_one')
-    start_time = time.time()
-    execute_command(folder_to_sort)
-    print(f'Program execution: {time.time() - start_time}')
-    p = 'Program execution: 0.12106442451477051'
+    path = Path(sys.argv[1])
+    parse_folder(path)
+    threading_files(path)
+    del_empty_folders(path)
