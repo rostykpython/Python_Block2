@@ -1,0 +1,63 @@
+
+{% block content %}
+<header >
+    <ul>
+        <li>
+            <a href="{{ url_for('home')}}">
+            <img src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/000000/external-bot-artificial-intelligence-kiranshastry-lineal-kiranshastry-2.png"/>
+            Personal assistant bot</a>
+        </li>
+        <li>
+            <a href="{{ url_for('address')}}">Address Book</a>
+        </li>
+        <li>
+            <a href="{{url_for('notes')}}">
+            Note
+            </a>
+        </li>
+    </ul>
+
+</header>
+<h1>Address book</h1>
+<form action="" method="post">
+    <p>
+        {{form.name.label}}<br>
+        {{form.name}}
+    </p>
+    <p>
+        {{form.phone.label}}<br>
+        {{form.phone}}
+    </p>
+    <p>
+        {{form.email.label}}<br>
+        {{form.email}}
+    </p>
+    <p>
+        {{form.birthday.label}}<br>
+        {{form.birthday}}
+    </p>
+    <p>
+        {{form.street.label}}<br>
+        {{form.street}}
+    </p>
+    <p>
+        {{form.submit.label}}<br>
+        {{form.submit}}
+    </p>
+</form>
+
+<p>
+    {%if data%}
+    <ul>
+        {%for contact in data%}
+        <li>
+            <h3>Contact: {{contact.name}}</h3>
+            <a href="{{ url_for('contact', address_book_id=contact.id)}}">See details</a>
+            <a href="{{url_for('contact_delete', address_book_id=contact.id)}}">Delete contact</a>
+        </li>
+        {%endfor%}
+    </ul>
+    {%endif%}
+</p>
+
+{% endblock %}

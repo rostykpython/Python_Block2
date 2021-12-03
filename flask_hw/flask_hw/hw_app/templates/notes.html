@@ -1,0 +1,47 @@
+{%block content%}
+<header >
+    <ul>
+        <li>
+            <a href="{{ url_for('home')}}">
+            <img src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/000000/external-bot-artificial-intelligence-kiranshastry-lineal-kiranshastry-2.png"/>
+            Personal assistant bot</a>
+        </li>
+        <li>
+            <a href="{{ url_for('address')}}">Address Book</a>
+        </li>
+        <li>
+            <a href="{{url_for('notes')}}">
+            Note
+            </a>
+        </li>
+    </ul>
+
+</header>
+<h1>Notes</h1>
+<form action="" method="post">
+    <p>{{form.title.label}}<br>
+        {{form.title}}
+    </p>
+    <p>{{form.note.label}}<br>
+        {{form.note}}</p>
+    <p>{{form.tags.label}}<br>
+        {{form.tags}}</p>
+    <p>{{form.submit.label}}<br>
+    {{form.submit}}
+    </p>
+</form>
+<p>
+    {%if db_data%}
+    <ul>
+        {%for note in db_data%}
+        <li>
+            <h3>Note title: {{note.title}}</h3>
+            <a href="{{url_for('note', note_id=note.id)}}">See details</a>
+            <a href="{{url_for('note_delete', note_id=note.id)}}">Delete contact</a>
+
+        {%endfor%}
+    </ul>
+    {%endif%}
+</p>
+
+{%endblock%}
