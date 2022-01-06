@@ -77,7 +77,7 @@ async def main(input_path):
 
 
 if __name__ == '__main__':
-    path = r'C:\Users\User\Desktop\folder_tets'
+    path = r'C:\Users\User\Desktop\folder_test'
 
     sort_folder = Path(path)
     asyncio.run(main(sort_folder.resolve()))
