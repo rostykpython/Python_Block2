@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather comparing</title>
+</head>
+<body>
+
+<table>
+  <tr>
+    <td>
+
+        <table border="1" cellpadding="4" cellspacing="0" width="50%">
+            <caption>Information from grid_weather</caption>
+
+                <tr>
+                    <th></th><th>Temperature</th><th>Wind</th><th>Description</th><th>Image</th><th>Source</th>
+                </tr>
+                {% for city in grid_weather %}
+                <tr>
+                    {% for i in range(6) %}
+                    <td>{{ city[i] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+        </table>
+
+    </td>
+
+    <td>
+        <table border="1" cellpadding="4" cellspacing="0" width="50%">
+            <caption>Information from weather_api</caption>
+                <tr>
+                    <th></th><th>Temperature</th><th>Wind</th><th>Description</th><th>Image</th><th>Source</th>
+                </tr>
+                {% for city in weather_api %}
+                <tr>
+                    {% for i in range(6) %}
+                    {% if not 'png' in city[i]|string()%}
+                        <td>{{city[i]}}</td>
+                    {% else %}
+                        <td><img src="{{ city[i] }}"></td>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+        </table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
