@@ -30,8 +30,8 @@ async def handler(request):
 if __name__ == '__main__':
 
     app = web.Application()
-    aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(r'D:\Code_projects\Retry_python\module_aiohttp\hw1'
-                                                             r'\templates'))
+    aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(r'D:\Code_projects\Retry_python\module_aiohttp'
+                                                             r'\hw_aiohttp\templates'))
 
     app.router.add_get('/', handler, name="view")
     web.run_app(app, host="localhost")
