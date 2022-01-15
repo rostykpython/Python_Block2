@@ -1,8 +1,6 @@
 import asyncio
 from aiopath import AsyncPath
-from pathlib import Path
 import shutil
-
 
 DOC_DOC = []
 DOCX_DOC = []
@@ -26,7 +24,7 @@ REGISTERED_EXT = {
 }
 
 
-async def parse_folder(input_path: Path):
+async def parse_folder(input_path):
     path = AsyncPath(input_path)
     async for folder_item in path.iterdir():
         is_folder = await folder_item.is_dir()
@@ -42,7 +40,8 @@ async def parse_folder(input_path: Path):
                 REGISTERED_EXT['OTHER'].append(folder_item)
 
 
-async def handle_file(root_path, file_path: Path):
+async def handle_file(root_path, file_path: AsyncPath):
+    root_path = AsyncPath(root_path)
     ext = file_path.suffix[1:].upper()
     if ext in ['JPG', 'SVG', 'PNG', 'JPEG']:
         category_folder = root_path / 'IMAGES'
@@ -56,28 +55,34 @@ async def handle_file(root_path, file_path: Path):
         category_folder = root_path / 'VIDEOS'
     else:
         category_folder = root_path / 'OTHER'
-    category_folder.mkdir(exist_ok=True)
+    await category_folder.mkdir(exist_ok=True)
     type_folder = category_folder / ext
-    type_folder.mkdir(exist_ok=True)
+    await type_folder.mkdir(exist_ok=True)
     await file_path.replace(type_folder / file_path.name)
 
 
-async def delfolder(input_path: Path):
+async def delfolder(input_path: AsyncPath):
     async for folder in input_path.iterdir():
         if folder.name not in ['IMAGES', 'DOC', 'ARCH', 'OTHER', 'VIDEOS', 'MUSIC'] and folder.is_dir():
             shutil.rmtree(folder)
 
 
+async def gathering_tasks(input_path):
+    await parse_folder(input_path)
+
+
 async def main(input_path):
+    tasks = []
     await parse_folder(input_path)
 
     for items in REGISTERED_EXT.values():
         for item in items:
-            await handle_file(input_path, item)
+            tasks.append(asyncio.create_task(handle_file(input_path, item)))
+
+    await asyncio.gather(*tasks)
 
 
 if __name__ == '__main__':
-    path = r'C:\Users\User\Desktop\folder_test'
+    path = r'D:\Sorting_folder_aiopath\test_1'
 
-    sort_folder = Path(path)
-    asyncio.run(main(sort_folder.resolve()))
+    asyncio.run(main(path))
