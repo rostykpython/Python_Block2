@@ -10,14 +10,10 @@ class QuotesHwSpider(scrapy.Spider):
     def parse(self, response, **kwargs):
         data_quote = QuotesItem()
         for quote in response.xpath("/html//div[@class='quote']"):
+            find_quote = quote.xpath("span[@class='text']/text()").get()
             data_quote['author'] = quote.xpath("span/small/text()").extract()
             data_quote['tags'] = quote.xpath("div[@class='tags']/a/text()").extract()
-            data_quote['quote'] = quote.xpath("span[@class='text']/text()").get()
-            yield {
-                "keywords": quote.xpath("div[@class='tags']/a/text()").extract(),
-                "author": quote.xpath("span/small/text()").extract(),
-                "quote": quote.xpath("span[@class='text']/text()").get()
-            }
+            data_quote['quote'] = find_quote.replace('”', '').replace('“', '').strip()
         next_link = response.xpath("//li[@class='next']/a/@href").get()
         if next_link:
             yield scrapy.Request(url=self.start_urls[0] + next_link)

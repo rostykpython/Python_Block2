@@ -1,6 +1,5 @@
-from sqlalchemy import Column, String, Integer, create_engine, ForeignKey, ARRAY
+from sqlalchemy import Column, String, Integer, create_engine, ARRAY
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
 
 
 Base = declarative_base()
@@ -48,6 +47,3 @@ class Quotes(Base):
         self.author = author
         self.tags = tags
         self.quote = quote
-
-
-Base.metadata.create_all(engine)

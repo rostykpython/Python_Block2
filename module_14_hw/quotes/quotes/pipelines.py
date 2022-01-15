@@ -7,7 +7,7 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 from sqlalchemy.orm import sessionmaker
-from .models import db_connect, Quotes, Authors
+from .models import db_connect, Quotes, Authors, create_items_table
 
 
 class QuotesPipeline:
@@ -18,6 +18,7 @@ class QuotesPipeline:
         Creates items table.
         """
         engine = db_connect()
+        create_items_table(engine)
         self.Session = sessionmaker(bind=engine)
 
     def process_item(self, item, spider):
@@ -28,10 +29,6 @@ class QuotesPipeline:
             tags = adapter['keywords']
             author = adapter['author']
             quote = adapter['quote']
-            print('Check data')
-            print(tags)
-            print(author)
-            print(quote)
             session.add(
                     Quotes(
                         author=author[0],
@@ -41,9 +38,6 @@ class QuotesPipeline:
                 )
 
         elif 'born' in adapter.keys():
-            print(adapter['name'])
-            print(adapter['born'])
-
             session.add(
                 Authors(
                     name_author=adapter['name'],

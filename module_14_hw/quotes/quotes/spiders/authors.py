@@ -17,12 +17,8 @@ class AuthorsSpider(scrapy.Spider):
         def extract_with_css(query):
             return response.css(query).get(default='').strip()
         author = AuthorsItem()
-        author['name'] = extract_with_css('h3.author-title::text')
-        author['born'] = extract_with_css('.author-born-date::text')
-        author['description'] = extract_with_css('.author-description::text')
-        # yield {
-        #     'name': extract_with_css('h3.author-title::text'),
-        #     'birthdate': extract_with_css('.author-born-date::text'),
-        #     'bio': extract_with_css('.author-description::text'),
-        # }
+        author['name'] = extract_with_css('h3.author-title::text').strip()
+        author['born'] = extract_with_css('.author-born-date::text').strip()
+        author['description'] = extract_with_css('.author-description::text').strip()
+
         return author
