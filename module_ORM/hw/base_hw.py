@@ -58,4 +58,4 @@ class NoteBook(Base):
         self.added_at = added_at
 
     def __str__(self):
-        return f'Title: {self.title}\nNote: {self.note}\nTags: {self.tags}\nDate: {self.added_at}\n'
+        return f'Title: {self.title}\nNote: {self.note}\nTags: {self.tags}'

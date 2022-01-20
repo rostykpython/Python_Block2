@@ -5,12 +5,14 @@ You can use it for collecting user address-book
 
 import re
 from datetime import datetime
+
+import sqlalchemy.orm
 from sqlalchemy import any_
 from base_hw import AddressBook, NoteBook
 from base_hw import Session_address_book, Base, engine_address_book
 
 
-def create_session_db(engine):
+def create_session_db(engine) -> sqlalchemy.orm.Session:
     """
     :param engine: engine of sqlalchemy.orm.create_engine
     :return: Session()
@@ -88,7 +90,7 @@ def main():
 
     :return: None
     """
-    print("COMMAND LINE INTERFACE\nYour Personal Assistant\n" + "=" * 23)
+    # print("COMMAND LINE INTERFACE\nYour Personal Assistant\n" + "=" * 23)
 
     session = create_session_db(engine_address_book)
     add_book = {
@@ -224,4 +226,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    session = create_session_db(engine_address_book)
+
+
