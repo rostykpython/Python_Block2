@@ -226,6 +226,5 @@ def main():
 
 
 if __name__ == "__main__":
-    session = create_session_db(engine_address_book)
-
+    main()
 
